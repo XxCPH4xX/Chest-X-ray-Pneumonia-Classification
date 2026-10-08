@@ -25,13 +25,19 @@ class Predictor:
             score = float(self.model(tensor).flatten()[0].sigmoid())
         threshold = self.metadata["threshold"]
         target = int(score >= threshold)
+        policy = self.metadata.get("uncertainty_policy")
+        inconclusive = bool(policy and policy["low"] <= score <= policy["high"])
         result = {
-            "predicted_class": "PNEUMONIA" if target else "NORMAL",
+            "predicted_class": "INCONCLUSIVE"
+            if inconclusive
+            else ("PNEUMONIA" if target else "NORMAL"),
             "probabilities": {"NORMAL": 1 - score, "PNEUMONIA": score},
             "threshold": threshold,
             "architecture": "resnet18",
             "smoke": self.metadata["smoke"],
             "gradcam_available": explain,
+            "gradcam_target": "PNEUMONIA" if target else "NORMAL",
+            "uncertainty_policy": policy,
         }
         heatmap, combined = None, None
         if explain:

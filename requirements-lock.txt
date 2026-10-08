@@ -95,6 +95,7 @@ pydantic_core==2.50.0
 pyparsing==3.3.3
 pytest==9.1.1
 python-dateutil==2.9.0.post0
+python-dotenv==1.2.4
 python-json-logger==4.2.0
 python-multipart==0.0.32
 pytz==2026.5

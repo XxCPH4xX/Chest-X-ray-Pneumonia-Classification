@@ -23,6 +23,14 @@ def read_checkpoint(path: str | Path) -> dict:
         raise ValueError("Invalid class mapping")
     if not 0 < checkpoint["threshold"] < 1:
         raise ValueError("Threshold must be between 0 and 1")
+    policy = checkpoint.get("uncertainty_policy")
+    if policy and not (
+        policy.get("source") == "validation"
+        and 0 <= policy["low"] <= checkpoint["threshold"] <= policy["high"] <= 1
+    ):
+        raise ValueError(
+            "Uncertainty policy must be derived from validation and span the threshold"
+        )
     return checkpoint
 
 

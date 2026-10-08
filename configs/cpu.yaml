@@ -1,0 +1,17 @@
+seed: 42
+device: cpu
+threads: 2
+dataset_root: chest_xray
+manifest: artifacts/data/manifest.csv
+image_size: 224
+batch_size: 8
+num_workers: 0
+pretrained: true
+head_epochs: 5
+fine_tune_epochs: 0
+learning_rate_head: 0.001
+learning_rate_finetune: 0.00001
+weight_decay: 0.0001
+early_stopping_patience: 3
+threshold: 0.5
+checkpoint_dir: artifacts/checkpoints

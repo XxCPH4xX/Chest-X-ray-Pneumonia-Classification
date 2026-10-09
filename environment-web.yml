@@ -1,0 +1,6 @@
+name: chest-xray-web
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - nodejs=22

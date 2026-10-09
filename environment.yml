@@ -1,0 +1,7 @@
+name: chest-xray-cpu
+channels:
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+# Install pip packages using scripts/setup.sh so torch comes only from the CPU index.

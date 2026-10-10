@@ -1,4 +1,5 @@
 "use client";
+import { hosted } from "@/lib/environment";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -51,14 +52,19 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </nav>
         <div className="sidebar-bottom">
           <div className="local-status">
-            <span className="status-dot" /> Local environment
+            <span className="status-dot" />{" "}
+            {hosted ? "Hosted environment" : "Local environment"}
           </div>
           <p>
             <Cpu size={15} /> CPU-only execution
           </p>
           <div className="privacy-note">
             <ShieldCheck size={19} />
-            <span>Your images stay on this computer.</span>
+            <span>
+              {hosted
+                ? "Images are sent to the server for analysis."
+                : "Your images stay on this computer."}
+            </span>
           </div>
         </div>
       </aside>

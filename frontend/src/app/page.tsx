@@ -1,4 +1,5 @@
 "use client";
+import { hosted } from "@/lib/environment";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -26,9 +27,11 @@ export default function Dashboard() {
   return (
     <>
       <PageHeading
-        eyebrow="YOUR LOCAL RESEARCH ENVIRONMENT"
+        eyebrow={
+          hosted ? "RESEARCH ENVIRONMENT" : "YOUR LOCAL RESEARCH ENVIRONMENT"
+        }
         title="Research overview"
-        description="Run local chest X-ray analysis and review model results."
+        description="Analyze chest X-rays and review model results."
         action={
           <Link href="/analysis" className="button primary">
             <ScanLine size={18} />
@@ -83,7 +86,9 @@ export default function Dashboard() {
           </div>
           <strong className="summary-value">CPU only</strong>
           <span className="subtle">
-            Local inference · no cloud image processing
+            {hosted
+              ? "Server inference · CPU only"
+              : "Local inference · no cloud image processing"}
           </span>
         </div>
       </div>
@@ -101,7 +106,7 @@ export default function Dashboard() {
           <div className="workflow-steps">
             {[
               ["01", "Upload", "Choose a JPEG or PNG"],
-              ["02", "Analyze", "Run the local ResNet18 model"],
+              ["02", "Analyze", "Run the ResNet18 model"],
               ["03", "Explore", "Compare scores and Grad-CAM"],
             ].map(([number, title, description]) => (
               <div className="workflow-step" key={number}>
@@ -221,15 +226,15 @@ export default function Dashboard() {
         ) : (
           <EmptyState
             title={
-              history.data?.enabled
-                ? "No saved predictions"
-                : "History is off"
+              history.data?.enabled ? "No saved predictions" : "History is off"
             }
             link={{ href: "/analysis", label: "Analyze an X-ray" }}
           >
             {history.data?.enabled
               ? "Save a prediction during analysis to find it here. Images are never stored."
-              : "Images and results are not saved by default. Local metadata history can be enabled in the backend settings."}
+              : hosted
+                ? "This deployment does not save images or prediction history."
+                : "Images and results are not saved by default. Local metadata history can be enabled in the backend settings."}
           </EmptyState>
         )}
       </section>

@@ -1,3 +1,4 @@
+import { hosted } from "@/lib/environment";
 import { BookOpen, Cpu, Database, ScanLine, ShieldCheck } from "lucide-react";
 import { PageHeading } from "@/components/ui";
 
@@ -86,11 +87,11 @@ export default function About() {
         <ShieldCheck size={30} />
         <div>
           <span className="eyebrow">PRIVACY & APPROPRIATE USE</span>
-          <h2>Local processing</h2>
+          <h2>{hosted ? "Hosted processing" : "Local processing"}</h2>
           <p>
-            Images are processed on this computer and are never stored by the
-            application. Optional SQLite history stores scores and model
-            metadata only. There are no third-party analytics on uploads.
+            {hosted
+              ? "Images are sent to the hosted server for CPU analysis. The application does not save uploaded images or prediction history."
+              : "Images are processed on this computer and are never stored by the application. Optional SQLite history stores scores and model metadata only. There are no third-party analytics on uploads."}
           </p>
           <p>
             This initial system is for educational research, not use with real

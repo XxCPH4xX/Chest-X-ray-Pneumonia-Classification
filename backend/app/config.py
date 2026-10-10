@@ -10,6 +10,7 @@ load_dotenv(PROJECT_ROOT / ".env", override=False)
 
 @dataclass
 class Settings:
+    allowed_hosts: list[str] = field(default_factory=lambda: ["localhost", "127.0.0.1"])
     checkpoint: Path = field(
         default_factory=lambda: Path(
             os.getenv("MODEL_CHECKPOINT", str(PROJECT_ROOT / "artifacts/model/model.pt"))

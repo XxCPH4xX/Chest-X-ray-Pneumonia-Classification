@@ -9,5 +9,11 @@ export default defineConfig([
   ...tseslint.configs.recommended,
   reactHooks.configs.flat.recommended,
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
-  globalIgnores([".next/**", "next-env.d.ts", "playwright-report/**", "test-results/**"]),
+  globalIgnores([
+    ".next/**",
+    "out/**",
+    "next-env.d.ts",
+    "playwright-report/**",
+    "test-results/**",
+  ]),
 ]);

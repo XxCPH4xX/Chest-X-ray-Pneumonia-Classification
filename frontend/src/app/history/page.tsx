@@ -1,4 +1,5 @@
 "use client";
+import { hosted } from "@/lib/environment";
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight, Search, Trash2, X } from "lucide-react";
@@ -53,7 +54,7 @@ function HistoryContent() {
   return (
     <>
       <PageHeading
-        eyebrow="LOCAL RECORDS"
+        eyebrow={hosted ? "RECORDS" : "LOCAL RECORDS"}
         title="Prediction history."
         description="Review saved predictions. History stores result metadata, not images."
       />
@@ -92,9 +93,9 @@ function HistoryContent() {
           <ErrorNotice message={history.error} retry={history.refresh} />
         ) : !history.data?.enabled ? (
           <EmptyState title="History is disabled">
-            Enable local metadata history in the backend settings, then choose
-            “Save result metadata” during an analysis. Uploaded images are never
-            retained.
+            {hosted
+              ? "Prediction history is not saved on this deployment."
+              : "Enable local metadata history in the backend settings, then choose “Save result metadata” during an analysis. Uploaded images are never retained."}
           </EmptyState>
         ) : !history.data.items.length ? (
           <EmptyState

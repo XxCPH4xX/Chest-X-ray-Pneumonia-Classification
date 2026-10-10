@@ -1,3 +1,4 @@
+import { hosted } from "@/lib/environment";
 export const apiUrl = (path: string) =>
   `${process.env.NEXT_PUBLIC_API_URL || ""}${path}`;
 
@@ -12,7 +13,9 @@ export async function request<T>(
     if (error instanceof DOMException && error.name === "AbortError")
       throw error;
     throw new Error(
-      "Cannot reach the local API. Start the backend and try again.",
+      hosted
+        ? "Cannot reach the analysis service. Please try again."
+        : "Cannot reach the local API. Start the backend and try again.",
     );
   }
   if (!response.ok) {

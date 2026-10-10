@@ -101,7 +101,7 @@ def create_app(settings: Settings | None = None, predictor_factory=Predictor) ->
 
     app = FastAPI(title="Chest X-ray Research API", version="1.0.0", lifespan=lifespan)
     app.add_middleware(BodyLimitMiddleware, limit=settings.max_upload_bytes + 65536)
-    app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1"])
+    app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.allowed_hosts)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.origins,

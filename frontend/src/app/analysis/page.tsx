@@ -1,4 +1,5 @@
 "use client";
+import { hosted, uploadLimitMiB } from "@/lib/environment";
 import { useEffect, useRef, useState } from "react";
 import {
   FileImage,
@@ -52,8 +53,8 @@ export default function Analysis() {
       setError("Choose a JPEG or PNG image.");
       return;
     }
-    if (next.size > 8 * 1024 * 1024) {
-      setError("Image exceeds the 8 MiB upload limit.");
+    if (next.size > uploadLimitMiB * 1024 * 1024) {
+      setError(`Image exceeds the ${uploadLimitMiB} MiB upload limit.`);
       return;
     }
     setFile(next);
@@ -162,7 +163,9 @@ export default function Analysis() {
                 >
                   Browse files
                 </button>
-                <small>Up to 8 MiB · 4096 px per side · 12 MP</small>
+                <small>
+                  Up to {uploadLimitMiB} MiB · 4096 px per side · 12 MP
+                </small>
               </>
             )}
           </div>
@@ -183,7 +186,11 @@ export default function Analysis() {
           )}
           <div className="privacy-inline">
             <LockKeyhole size={15} />
-            <span>Processed locally. The original image is never saved.</span>
+            <span>
+              {hosted
+                ? "Sent to the server for analysis. The application does not save uploads."
+                : "Processed locally. The original image is never saved."}
+            </span>
           </div>
         </section>
         <section className="card options-card">
@@ -224,7 +231,7 @@ export default function Analysis() {
             </div>
             <div>
               <dt>Execution</dt>
-              <dd>CPU · local</dd>
+              <dd>{hosted ? "CPU · server" : "CPU · local"}</dd>
             </div>
             <div>
               <dt>Input resolution</dt>
@@ -261,7 +268,7 @@ export default function Analysis() {
       {busy && (
         <div className="notice" role="status">
           <LoaderCircle className="spin" size={20} />
-          <p>Running the model locally. CPU analysis can take a few seconds.</p>
+          <p>Running the model on CPU. Analysis can take a few seconds.</p>
         </div>
       )}
       {error && <ErrorNotice message={error} />}

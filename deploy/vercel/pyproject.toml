@@ -1,0 +1,26 @@
+[project]
+name = "chest-xray-inference"
+version = "1.0.0"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+  "fastapi==0.143.0",
+  "matplotlib==3.11.2",
+  "numpy==2.4.6",
+  "pillow==12.3.0",
+  "psutil==7.2.2",
+  "python-dotenv==1.2.4",
+  "python-multipart==0.0.32",
+  "sqlalchemy==2.1.4",
+  "torch==2.10.0+cpu",
+  "torchvision==0.25.0+cpu",
+  "uvicorn==0.54.0",
+]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
